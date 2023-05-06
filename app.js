@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const ApiError = require('./src/utils/apiError');
@@ -20,8 +21,9 @@ if (config.app.env !== 'test') {
 }
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(helmet());
 app.use(cors());
-app.use(express.json({ limit: '3gb' }));
+app.use(express.json({ limit: '10mb' }));
 
 app.use(router);
 app.use(

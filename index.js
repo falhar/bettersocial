@@ -15,5 +15,5 @@ sequelize
   });
 
 app.listen(port, () => {
-  logger.info(`Checkified API listening at port ${port}`);
+  logger.info(`App listening at port ${port}`);
 });
