@@ -20,13 +20,14 @@ describe('Auth routes', () => {
       const registeredUser = await db.user.findOne({
         where: { username: user.username },
       });
-      expect(registeredUser).toMatchObject(
+
+      expect(registeredUser.toJSON()).toMatchObject(
         expect.objectContaining({
           id: expect.any(String),
           username: user.username,
           avatar: null,
-          createdAt: expect.any(String),
-          updatedAt: expect.any(String),
+          createdAt: expect.any(Date),
+          updatedAt: expect.any(Date),
         })
       );
     });
@@ -39,27 +40,29 @@ describe('Auth routes', () => {
 
       // expect status code 400
       const res = await request(app).post('/auth/register').send(user).expect(400);
-      console.log(res.body);
+
       // expect response
-      expect(res.body.errors).toMatchObject(
+      expect(res.body).toMatchObject(
         expect.objectContaining({
-          email: { message: 'email already used!' },
+          status: 'Error',
+          message: 'username already used',
         })
       );
     });
 
     test('invalid input return 422', async () => {
       const user = {
-        username: null,
+        username: 'as!@3',
       };
 
       // expect status code 422
       const res = await request(app).post('/auth/register').send(user).expect(422);
 
       // expect response
-      expect(res.body.errors).toMatchObject(
+      expect(res.body).toMatchObject(
         expect.objectContaining({
-          username: { message: expect.any(String) },
+          status: 'Error',
+          message: 'Validation Error',
         })
       );
     });

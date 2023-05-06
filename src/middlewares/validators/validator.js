@@ -7,7 +7,7 @@ exports.validationErroMw = asyncMw(async (req, res, next) => {
   const errors = myValidationResult(req);
 
   if (!errors.isEmpty()) {
-    if (req.files.avatar) {
+    if (req.files?.avatar) {
       unlinkFileIfExist(req.files.avatar[0].path);
     }
     next(new ApiError(422, 'Validation Error', errors.mapped()));
