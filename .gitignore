@@ -1,0 +1,8 @@
+node_modules/
+public/uploads/*
+coverage/
+
+.tmp/
+
+.env
+.DS_Store

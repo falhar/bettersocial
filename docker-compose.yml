@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  # PostgreSQL Service
+  bettersocial-db:
+    image: postgres:15.1
+    container_name: bettersocial-db
+    restart: unless-stopped
+    ports:
+      - '${DB_PORT}:5432'
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+    networks:
+      - bettersocial-network
+    volumes:
+      - ./.tmp/db-data:/var/lib/postgresql/data
+
+# Docker Networks
+networks:
+  bettersocial-network:
+    driver: bridge
